@@ -10,7 +10,7 @@ GPT(ChatGPT 이미지 생성), Gemini, Grok에 **그대로 붙여 넣는 영어 
 3. 가능하면 **기존 일러스트 1~2장을 함께 첨부**합니다(GPT·Gemini·Grok 모두 이미지 첨부 가능). 같은 클래스나 비슷한 분위기의 영웅을 고르세요. 첨부할 때는 템플릿 맨 앞에 아래 「참고 이미지 문장」을 붙입니다.
 4. 비율을 **세로 2:3**으로 맞춥니다.
    - GPT: 세로(portrait) 비율을 고르거나 문장 안의 `1024x1536`을 그대로 둡니다.
-   - Gemini·Grok: 비율 선택 메뉴가 있으면 2:3(없으면 3:4나 9:16 같은 세로 비율)을 고릅니다. 위아래가 남으면 반입 단계에서 잘라 냅니다.
+   - Gemini·Grok: 비율 선택 메뉴가 있으면 2:3(없으면 3:4처럼 2:3에 가장 가까운 세로 비율)을 고릅니다. 남는 부분은 반입 단계에서 잘라 냅니다. 9:16처럼 너무 길쭉한 비율은 가로 해상도가 모자라고 많이 잘려 나가니 피합니다.
 5. 생성 결과를 [style-guide.md 10장 점검표](style-guide.md#10-새-영웅-그림-점검표)로 확인하고, 통과한 그림만 `assets/incoming/<id>.png`(또는 .jpg/.webp)로 올립니다.
 
 > 생성기가 노출이 많은 의상을 순화해서 그리기도 합니다. 기존 영웅과 의상 문법(장식 갑옷 + 사슬 + 긴 망토)만 맞으면 괜찮습니다. 프롬프트는 노골적인 표현 없이 '성인, 절제된 표현'을 유지합니다.
@@ -78,7 +78,7 @@ Vertical full-body character illustration for a dark high-fantasy collectible he
 
 SUBJECT: one adult woman in her late 20s, very long flowing teal hair blown by the wind, grey-blue eyes, fair skin, pointed elf ears with silver feather earrings, focused calm expression. An elven mountain archer who guards the messenger roads of the high ridges.
 
-OUTFIT: ornate fantasy battle attire in teal — a sculpted armored top and hip guard woven from teal feathers and thin silver branches, linked by fine silver body chains with small feather charms on the waist, thighs, arms and ankles; silver armlets and feather bracers; a long flowing sheer teal feather cape that trails to the ground; strappy silver lace-up sandals wrapped around the calves. Tasteful and non-explicit.
+OUTFIT: ornate fantasy battle attire in teal — a sculpted armored top and hip guard woven from teal feathers and thin silver branches, linked by fine silver body chains with small feather charms on the waist, thighs, arms and ankles; silver armlets and feather bracers; a long flowing sheer teal feather cape that trails to the ground; bare feet with silver laces and small feathers wrapped around the ankles and calves. Tasteful and non-explicit.
 
 WEAPON: an ornate silver longbow decorated with teal feathers and silver leaves, the bowstring drawn with an arrow nocked, held in her left hand.
 

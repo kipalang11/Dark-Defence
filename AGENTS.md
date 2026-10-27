@@ -109,8 +109,8 @@ tests/check.js          Node로 돌리는 정적 검사 (의존성 없음)
 사용자가 `assets/incoming/<id>.png`(jpg·webp도 가능)를 올리면 대장이 아래 순서로 처리합니다. 한 영웅의 반입은 나누지 않고 대장이 직접 합니다.
 그림 기준은 `docs/art/style-guide.md`, 설정 양식은 `docs/art/characters.md` 맨 아래에 있습니다. 이미지 처리에는 Pillow(`python3 -c "import PIL"`)를 씁니다. Pillow는 작업 도구일 뿐이며 저장소에 넣지 않습니다.
 
-1. **접수**: 파일명의 `<id>`는 영어 소문자만 쓰고, `data/heroes.json`의 기존 id와 겹치면 안 됩니다. 형식이 맞지 않으면 바꿀 이름을 제안합니다. 이름·클래스·소속·나이(성인)·성격·스킬이 함께 오지 않았으면 작업 전에 먼저 묻습니다. 수치는 같은 클래스 기존 영웅의 값을 기준으로 초안을 만들고, 보고할 때 그 값을 밝힙니다.
-2. **그림 확인**: 원본을 Read로 직접 보고 `docs/art/style-guide.md` 10장 점검표로 확인합니다. 원본 가로가 784px보다 작거나, 발·머리가 잘렸거나, 글자·서명이 있으면 사용자에게 알리고 다시 생성할지 묻습니다.
+1. **접수**: 파일명의 `<id>`는 영어 소문자만 쓰고, `data/heroes.json`의 기존 id와 겹치면 안 됩니다. 형식이 맞지 않거나 같은 id로 파일이 둘 이상(예: .png와 .jpg) 있으면 작업을 멈추고 사용자에게 묻습니다. 이름·클래스·소속·나이(성인)·성격·스킬이 함께 오지 않았으면 작업 전에 먼저 묻습니다. 수치는 같은 클래스 기존 영웅의 값을 기준으로 초안을 만들고, 보고할 때 그 값을 밝힙니다.
+2. **그림 확인**: 원본을 Read로 직접 보고 `docs/art/style-guide.md` 10장 점검표로 확인합니다. 원본 가로가 768px보다 작거나, 발·머리가 잘렸거나, 글자·서명이 있으면 사용자에게 알리고 다시 생성할지 묻습니다.
 3. **크기 통일·WebP 변환** → `assets/<id>.webp` (784×1168, 품질 90)
    ```bash
    python3 - <id> <<'EOF'
@@ -144,8 +144,8 @@ tests/check.js          Node로 돌리는 정적 검사 (의존성 없음)
    ```
 6. **`data/stories.json` 맨 끝에 추가**: 같은 `id`로 `title, faction, quote, story, skill, description`을 채웁니다. 방법은 5와 같습니다. `story`에는 성인 나이를 적고, `description`의 숫자는 5에서 넣은 수치와 맞춥니다.
 7. **문장에 직접 적힌 수 고치기** (`index.html`): `일반 영웅 21명`과 `2 / 21`의 21을 +1, `신규 영웅 · 11명`의 11을 +1 합니다. 새 클래스를 만들었다면 `data/hero-classes.json`과 `index.html`의 클래스 필터 `<option>`도 추가합니다.
-8. **기록 고정과 문서**: `tests/check.js`의 `LOCKED_ORDER` 끝에 새 id를 추가합니다. `docs/art/characters.md`의 표와 설정 시트에도 새 영웅을 추가합니다.
-9. **원본 정리**: `git rm assets/incoming/<id>.*`로 원본을 지웁니다. 원본은 커밋에 남기지 않습니다(`assets/incoming/README.md`는 남김).
+8. **기록 고정과 문서**: `tests/check.js`의 `LOCKED_ORDER` 끝에 새 id를 추가합니다. `docs/art/characters.md`의 표와 설정 시트에도 새 영웅을 추가합니다. 영웅 수가 적힌 문장도 고칩니다: 이 파일의 폴더 구조(`영웅 전신 일러스트 23장`, `전신 초상 20장`, `영웅 23명`), `docs/art/style-guide.md` 첫 문단(23장/20장), `docs/art/characters.md` 첫 문단(`24번(인덱스 23)부터`). `CLAUDE.md`와 `AGENTS.md`는 똑같이 유지합니다.
+9. **원본 정리**: `git rm -f --ignore-unmatch assets/incoming/<id>.*; rm -f assets/incoming/<id>.*`로 원본을 지웁니다. 원본은 커밋에 남기지 않습니다(`assets/incoming/README.md`는 남김).
 10. **확인**: `node tests/check.js`를 통과시킵니다. 브라우저에서 도감 카드·영웅 상세·소환 결과에 그림이 나오는지, 전투 하단 도크 썸네일과 맵의 원형 아이콘에 얼굴이 가운데 보이는지 확인합니다. 그다음 '대장 운영 규칙'의 검수·보고를 이어서 합니다.
 
 ## 대장 운영 규칙
