@@ -1,0 +1,6 @@
+/* Full-body costumes: keep faces legible in compact battle portraits. */
+.detail-art img{object-fit:contain;object-position:center top}
+
+/* Hero classes, deployment hints and awakened range stats. */
+.collection-filters{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end}.class-badge{display:inline-block;font-size:11px;line-height:1.6}.class-badge.melee,.placement-legend .melee{color:#efc46f}.class-badge.ranged,.placement-legend .ranged{color:#84d5e7}.battle-selection{margin:10px 0;color:#ead8ae;font-size:13px;line-height:1.6}.placement-legend{display:flex;flex-wrap:wrap;gap:8px 15px;margin:10px 0 14px;font-size:11px;color:#a8b9b3}.hero-stats{flex-wrap:wrap;gap:16px}.range-note{color:#c6d6c0!important}.hero .class-badge{font-size:10px}
+@media(max-width:600px){.collection-toolbar{align-items:flex-start;gap:10px}.collection-filters{max-width:58%;flex-direction:column}.collection-filters select{max-width:100%;font-size:12px}.battle-selection{font-size:12px}.placement-legend{font-size:10px}.hero-stats span{min-width:38%}}

@@ -1,0 +1,34 @@
+{
+  "guardian": {
+    "name": "수호자",
+    "deployment": "melee"
+  },
+  "warrior": {
+    "name": "전사",
+    "deployment": "melee"
+  },
+  "assassin": {
+    "name": "암살자",
+    "deployment": "melee"
+  },
+  "lancer": {
+    "name": "창기사",
+    "deployment": "melee"
+  },
+  "archer": {
+    "name": "궁수",
+    "deployment": "ranged"
+  },
+  "mage": {
+    "name": "마법사",
+    "deployment": "ranged"
+  },
+  "healer": {
+    "name": "치유사",
+    "deployment": "ranged"
+  },
+  "support": {
+    "name": "지원가",
+    "deployment": "ranged"
+  }
+}

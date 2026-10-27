@@ -1,0 +1,12 @@
+{
+  "start": { "gold": 1500, "stones": 10 },
+  "gifts": { "gold": 10000, "stones": 10, "shards": 3 },
+  "castleLife": 20,
+  "mana": { "start": 100, "max": 200, "regenPerSecond": 2, "perKill": 8, "refundRatio": 0.5 },
+  "goldPerKill": 5,
+  "skill": { "damage": 150, "heal": 100, "cooldownSeconds": 25 },
+  "level": { "upgradeGoldPerLevel": 120, "hpPerLevel": 0.15, "powerPerLevel": 0.2 },
+  "awaken": { "shardCost": 3, "bonusPerStage": 0.05 },
+  "summon": { "pityEvery": 5 },
+  "combat": { "blockRadius": 55, "blockSpeedFactor": 0.18, "slowSpeedFactor": 0.5, "poisonSeconds": 3 }
+}
