@@ -21,8 +21,8 @@ python3 -m http.server 8000   # 저장소 루트에서 실행
 ```
 index.html              HTML 마크업만 있음. css/*.css를 순서대로 link하고 js/boot.js 하나만 불러옴
 .nojekyll
-assets/<id>.webp        영웅 전신 일러스트 23장 (도감 카드·상세·소환 결과·인트로)
-assets/portraits/<id>.webp  전투 아이콘·캔버스용 전신 초상 20장 (kael, raven, born은 없음 → 전신 일러스트를 잘라 씀)
+assets/<id>.webp        영웅 전신 일러스트 28장 (도감 카드·상세·소환 결과·인트로)
+assets/portraits/<id>.webp  전투 아이콘·캔버스용 전신 초상 25장 (kael, raven, born은 없음 → 전신 일러스트를 잘라 씀)
 assets/incoming/        새 영웅 원본 이미지를 올리는 곳 (게임이 읽지 않음, 아래 '새 영웅 반입 절차')
 docs/art/               캐릭터 아트 가이드: style-guide.md(화풍·구도·클래스 규칙), characters.md(영웅 설정 시트), prompt-template.md(이미지 생성 프롬프트)
 css/
@@ -32,7 +32,7 @@ css/
   hero-classes.css      전신 일러스트 표시, 클래스 배지, 배치 안내
   battle.css            전투 화면(전체 화면 고정), 하단 영웅 도크, 골드 바
 data/
-  heroes.json           영웅 23명의 수치 (배열 순서 = 저장 인덱스, 아래 규칙 참고)
+  heroes.json           영웅 28명의 수치 (배열 순서 = 저장 인덱스, 아래 규칙 참고)
   hero-classes.json     클래스 8종의 이름과 배치 위치(melee=길 위, ranged=길 밖)
   stories.json          영웅별 칭호·소속·대사·이야기·스킬 설명 (heroes.json과 같은 순서)
   stages.json           스테이지 목록, 웨이브 수, 적·보스 수치, 승리 보상
@@ -84,7 +84,7 @@ tests/check.js          Node로 돌리는 정적 검사 (의존성 없음)
 ### 수치 조정
 - 게임 수치는 `data/*.json`만 고칩니다. JS에 숫자를 새로 하드코딩하지 말고 `BALANCE`, `STAGES`, `types`에서 읽습니다.
 - 수치가 **문장 안에 직접 적힌 곳**은 data를 바꿔도 자동으로 바뀌지 않으니 함께 고칩니다:
-  - `index.html`: `＋ 골드 10,000`, `골드 +10,000`, `소환석 +10` 버튼, `5회마다 미보유 영웅 확정`, 도감 필터의 `일반 영웅 21명`·`신규 영웅 · 11명`·`기존 영웅 · 2명`, 첫 표시값 `2 / 21`, 플레이 안내 대화상자(웨이브 6개, 각성 5%·125% 등)
+  - `index.html`: `＋ 골드 10,000`, `골드 +10,000`, `소환석 +10` 버튼, `5회마다 미보유 영웅 확정`, 도감 필터의 `일반 영웅 26명`·`신규 영웅 · 16명`·`기존 영웅 · 2명`, 첫 표시값 `2 / 26`, 플레이 안내 대화상자(웨이브 6개, 각성 5%·125% 등)
   - `data/stories.json`의 `description`(예: 공격력 70%, 0.42초)
   - `js/collection.js` 상세 화면의 `각성마다 … +5% (5단계에서 최대 +25%)`
 - 영웅 `range`는 실제 적용 사거리입니다. 근접 클래스는 이미 짧은 값으로 들어가 있습니다.
@@ -150,8 +150,8 @@ tests/check.js          Node로 돌리는 정적 검사 (의존성 없음)
    EOF
    ```
 7. **`data/stories.json` 맨 끝에 추가**: 같은 `id`로 `title, faction, quote, story, skill, description`을 채웁니다. 방법은 6과 같습니다. `story`에는 성인 나이를 적고, `description`의 숫자는 6에서 넣은 수치와 맞춥니다.
-8. **문장에 직접 적힌 수 고치기** (`index.html`): `일반 영웅 21명`과 `2 / 21`의 21을 +1, `신규 영웅 · 11명`의 11을 +1 합니다(여러 명이면 그 수만큼).
-9. **기록 고정과 문서**: `tests/check.js`의 `LOCKED_ORDER` 끝에 새 id를 추가합니다. `docs/art/characters.md`의 표와 설정 시트에도 새 영웅을 추가합니다. 영웅 수가 적힌 문장도 고칩니다: 이 파일의 폴더 구조(`영웅 전신 일러스트 23장`, `전신 초상 20장`, `영웅 23명`), `docs/art/style-guide.md` 첫 문단(23장/20장), `docs/art/characters.md` 첫 문단(`24번(인덱스 23)부터`). `CLAUDE.md`와 `AGENTS.md`는 똑같이 유지합니다.
+8. **문장에 직접 적힌 수 고치기** (`index.html`): `일반 영웅 N명`과 `2 / N`의 N, `신규 영웅 · N명`의 N을 새 영웅 수만큼 늘립니다(`heroes.json`에서 legacy가 아닌 영웅 수, newHero 영웅 수와 같아야 함).
+9. **기록 고정과 문서**: `tests/check.js`의 `LOCKED_ORDER` 끝에 새 id를 추가합니다. `docs/art/characters.md`의 표와 설정 시트에도 새 영웅을 추가합니다. 영웅 수가 적힌 문장도 고칩니다: 이 파일의 폴더 구조(`영웅 전신 일러스트 N장`, `전신 초상 N장`, `영웅 N명`), `docs/art/characters.md` 첫 문단(`N번(인덱스 N)부터`). 새 그림이 스타일 가이드와 다르면 `docs/art/style-guide.md` 9장에 적습니다. `CLAUDE.md`와 `AGENTS.md`는 똑같이 유지합니다.
 10. **원본 정리**: `git rm -f --ignore-unmatch "<원본 파일 경로>"; rm -f "<원본 파일 경로>"`로 원본을 지웁니다. 원본은 커밋에 남기지 않습니다(`assets/incoming/README.md`는 남김).
 11. **확인**: `node tests/check.js`를 통과시킵니다. 브라우저에서 도감 카드·영웅 상세·소환 결과에 그림이 나오는지, 전투 하단 도크 썸네일과 맵의 원형 아이콘에 얼굴이 가운데 보이는지 확인합니다. 그다음 '대장 운영 규칙'의 검수·보고를 이어서 합니다.
 
