@@ -23,6 +23,8 @@ index.html              HTML 마크업만 있음. css/*.css를 순서대로 link
 .nojekyll
 assets/<id>.webp        영웅 전신 일러스트 23장 (도감 카드·상세·소환 결과·인트로)
 assets/portraits/<id>.webp  전투 아이콘·캔버스용 전신 초상 20장 (kael, raven, born은 없음 → 전신 일러스트를 잘라 씀)
+assets/incoming/        새 영웅 원본 이미지를 올리는 곳 (게임이 읽지 않음, 아래 '새 영웅 반입 절차')
+docs/art/               캐릭터 아트 가이드: style-guide.md(화풍·구도·클래스 규칙), characters.md(영웅 설정 시트), prompt-template.md(이미지 생성 프롬프트)
 css/
   base.css              기본 레이아웃, 버튼, 대화상자, 모바일 기본 규칙
   collection.css        인트로, 탭, 도감 갤러리, 영웅 상세, 소환 결과, toast
@@ -102,6 +104,49 @@ tests/check.js          Node로 돌리는 정적 검사 (의존성 없음)
 - 전역 이름(`save`, `types`, `units`, `$`, `notice`, `toast`, `roster`, `hud` 등)을 바꾸거나 지울 때는 저장소 전체를 검색해 다른 파일의 사용처를 확인합니다.
 - 기존 코드는 한 줄에 여러 문장을 이어 쓰는 압축된 스타일입니다. 고치는 부분은 주변 스타일에 맞추고, 무관한 줄을 재포맷하지 않습니다(다른 에이전트와 충돌이 커짐).
 - 화면 문구는 한국어입니다.
+
+## 새 영웅 반입 절차 (`assets/incoming/`)
+사용자가 `assets/incoming/<id>.png`(jpg·webp도 가능)를 올리면 대장이 아래 순서로 처리합니다. 한 영웅의 반입은 나누지 않고 대장이 직접 합니다.
+그림 기준은 `docs/art/style-guide.md`, 설정 양식은 `docs/art/characters.md` 맨 아래에 있습니다. 이미지 처리에는 Pillow(`python3 -c "import PIL"`)를 씁니다. Pillow는 작업 도구일 뿐이며 저장소에 넣지 않습니다.
+
+1. **접수**: 파일명의 `<id>`는 영어 소문자만 쓰고, `data/heroes.json`의 기존 id와 겹치면 안 됩니다. 형식이 맞지 않거나 같은 id로 파일이 둘 이상(예: .png와 .jpg) 있으면 작업을 멈추고 사용자에게 묻습니다. 이름·클래스·소속·나이(성인)·성격·스킬이 함께 오지 않았으면 작업 전에 먼저 묻습니다. 수치는 같은 클래스 기존 영웅의 값을 기준으로 초안을 만들고, 보고할 때 그 값을 밝힙니다.
+2. **그림 확인**: 원본을 Read로 직접 보고 `docs/art/style-guide.md` 10장 점검표로 확인합니다. 원본 가로가 768px보다 작거나, 발·머리가 잘렸거나, 글자·서명이 있으면 사용자에게 알리고 다시 생성할지 묻습니다.
+3. **크기 통일·WebP 변환** → `assets/<id>.webp` (784×1168, 품질 90)
+   ```bash
+   python3 - <id> <<'EOF'
+   import sys, glob
+   from PIL import Image, ImageOps
+   i = sys.argv[1]; src = glob.glob(f'assets/incoming/{i}.*')[0]
+   im = ImageOps.exif_transpose(Image.open(src)).convert('RGB')
+   im = ImageOps.fit(im, (784, 1168), Image.LANCZOS, centering=(0.5, 0.0))
+   im.save(f'assets/{i}.webp', 'WEBP', quality=90, method=6)
+   EOF
+   ```
+   비율이 2:3이 아니면 넘치는 부분을 잘라 냅니다. `centering=(0.5, 0.0)`은 위쪽(머리)을 살리고 아래와 양옆을 자르는 설정입니다. 결과를 Read로 보고 발이 잘렸으면 두 번째 값을 0.3~0.5로 올려 다시 만듭니다.
+4. **전투용 초상 자르기** → `assets/portraits/<id>.webp` (300×300, 축소 없이 1:1로 자름)
+   ```bash
+   python3 - <id> <x> <y> <<'EOF'
+   import sys
+   from PIL import Image
+   i, x, y = sys.argv[1], int(sys.argv[2]), int(sys.argv[3])
+   Image.open(f'assets/{i}.webp').crop((x, y, x + 300, y + 300)).save(f'assets/portraits/{i}.webp', 'WEBP', quality=90, method=6)
+   EOF
+   ```
+   `x` = 얼굴 중심의 가로 좌표 − 150(0~484), `y` = 머리 꼭대기 − 20(0~868)입니다. 잘린 결과를 Read로 보고, 얼굴이 가운데 있고 머리 위가 잘리지 않을 때까지 조정합니다(전투에서는 지름 52px 원으로 다시 잘림).
+5. **`data/heroes.json` 맨 끝에 추가**: 같은 클래스 기존 영웅의 항목을 본떠 `id, name, role, icon, color, cost, range, dmg, rate, hp`와 클래스 전용 필드(`block`, `heal`, `aura`, `auraRange`, `splash`, `splashFactor`, `slow`, `leech`, `poison`)를 채웁니다. 나머지는 `classId`, `gender`, `"legacy": false`, `"newHero": true`, `"fullBodyPortrait": true`로 둡니다. `color`는 스타일 가이드 6장 기준의 파스텔 톤입니다. 기존 항목은 건드리지 말고, 아래처럼 파일을 다시 쓰면 기존 형식(들여쓰기 2칸, 한글 그대로, 끝 줄바꿈)이 유지됩니다.
+   ```bash
+   python3 - <<'EOF'
+   import json
+   f = 'data/heroes.json'; d = json.load(open(f, encoding='utf-8'))
+   d.append({ ... })  # 새 영웅 항목
+   open(f, 'w', encoding='utf-8').write(json.dumps(d, ensure_ascii=False, indent=2) + '\n')
+   EOF
+   ```
+6. **`data/stories.json` 맨 끝에 추가**: 같은 `id`로 `title, faction, quote, story, skill, description`을 채웁니다. 방법은 5와 같습니다. `story`에는 성인 나이를 적고, `description`의 숫자는 5에서 넣은 수치와 맞춥니다.
+7. **문장에 직접 적힌 수 고치기** (`index.html`): `일반 영웅 21명`과 `2 / 21`의 21을 +1, `신규 영웅 · 11명`의 11을 +1 합니다. 새 클래스를 만들었다면 `data/hero-classes.json`과 `index.html`의 클래스 필터 `<option>`도 추가합니다.
+8. **기록 고정과 문서**: `tests/check.js`의 `LOCKED_ORDER` 끝에 새 id를 추가합니다. `docs/art/characters.md`의 표와 설정 시트에도 새 영웅을 추가합니다. 영웅 수가 적힌 문장도 고칩니다: 이 파일의 폴더 구조(`영웅 전신 일러스트 23장`, `전신 초상 20장`, `영웅 23명`), `docs/art/style-guide.md` 첫 문단(23장/20장), `docs/art/characters.md` 첫 문단(`24번(인덱스 23)부터`). `CLAUDE.md`와 `AGENTS.md`는 똑같이 유지합니다.
+9. **원본 정리**: `git rm -f --ignore-unmatch assets/incoming/<id>.*; rm -f assets/incoming/<id>.*`로 원본을 지웁니다. 원본은 커밋에 남기지 않습니다(`assets/incoming/README.md`는 남김).
+10. **확인**: `node tests/check.js`를 통과시킵니다. 브라우저에서 도감 카드·영웅 상세·소환 결과에 그림이 나오는지, 전투 하단 도크 썸네일과 맵의 원형 아이콘에 얼굴이 가운데 보이는지 확인합니다. 그다음 '대장 운영 규칙'의 검수·보고를 이어서 합니다.
 
 ## 대장 운영 규칙
 사용자가 일을 시키면 대장(메인 에이전트)은 아래 순서를 지킵니다.
