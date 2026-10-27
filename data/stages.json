@@ -1,0 +1,13 @@
+{
+  "stages": [
+    { "id": 1, "name": "1장 · 초입", "difficulty": 1, "goldReward": 500 },
+    { "id": 2, "name": "2장 · 침공", "difficulty": 2, "goldReward": 1000 },
+    { "id": 3, "name": "3장 · 심연", "difficulty": 3, "goldReward": 1500 }
+  ],
+  "waves": 6,
+  "waveBreakSeconds": 2,
+  "spawn": { "base": 5, "perWave": 2, "batch": 3, "intervalSeconds": 1.8 },
+  "enemy": { "hpBase": 65, "hpPerWave": 25, "speedBase": 34, "speedPerWave": 3, "attack": 7, "attackRange": 135, "attackIntervalSeconds": 1.6, "firstAttackSeconds": 1, "castleDamage": 1 },
+  "boss": { "hpMultiplier": 9, "speed": 27, "attack": 26, "lane": 1, "castleDamage": 5 },
+  "victoryStones": 3
+}
