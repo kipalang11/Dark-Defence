@@ -15,7 +15,7 @@ const stories = read('data/stories.json'), stages = read('data/stages.json');
 read('data/balance.json'); read('data/battlefield.json');
 
 // Hero order is the index used by localStorage 'ashward-v1' and backup heroIds. Only appending is allowed.
-const LOCKED_ORDER = ['kael', 'silva', 'ignis', 'lumia', 'raven', 'born', 'serena', 'nisha', 'vellad', 'aria', 'frost', 'mirea', 'nox', 'astrid', 'briar', 'astra', 'morwen', 'zephyra', 'pyra', 'aurelia', 'leona', 'nerissa', 'solara'];
+const LOCKED_ORDER = ['kael', 'silva', 'ignis', 'lumia', 'raven', 'born', 'serena', 'nisha', 'vellad', 'aria', 'frost', 'mirea', 'nox', 'astrid', 'briar', 'astra', 'morwen', 'zephyra', 'pyra', 'aurelia', 'leona', 'nerissa', 'solara', 'glacia', 'karin', 'arachne', 'elaine', 'lyra'];
 
 check('영웅 순서가 기존 저장 인덱스와 같음 (뒤에 추가만 허용)', () => {
   assert.deepStrictEqual(heroes.slice(0, LOCKED_ORDER.length).map(h => h.id), LOCKED_ORDER);
