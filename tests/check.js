@@ -54,7 +54,7 @@ check('boot.js가 불러오는 파일이 모두 있음', () => {
   assert.ok(files.length > 10);
   files.forEach(f => assert.ok(exists(f), f));
   const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
-  [...html.matchAll(/(?:href|src)="([^"]+)"/g)].forEach(m => assert.ok(exists(m[1]), m[1]));
+  [...html.matchAll(/(?:href|src)="([^"?]+)/g)].forEach(m => assert.ok(exists(m[1]), m[1]));
 });
 check('Battlefield 격자', () => {
   const Battlefield = require('../js/battlefield.js');
