@@ -19,20 +19,20 @@ persist();renderCollection();
 
 
 // Fullscreen art viewer: pinch/wheel zoom, drag to pan, swipe (or arrows) to flip through owned heroes.
-let view={i:0,s:1,x:0,y:0,pts:new Map(),d0:0,s0:1,start:null,moved:false};
+let view={sw:0,i:0,s:1,x:0,y:0,pts:new Map(),d0:0,s0:1,start:null,moved:false};
 const viewList=()=>{let l=types.map((_,i)=>i).filter(i=>save.owned[i]);if(!l.includes(view.i))l.push(view.i);return l.sort((a,b)=>a-b)};
-function viewApply(a){let img=$('viewerImg'),st=$('viewerStage'),mx=Math.max(0,(img.clientWidth*view.s-st.clientWidth)/2),my=Math.max(0,(img.clientHeight*view.s-st.clientHeight)/2);view.x=Math.max(-mx,Math.min(mx,view.x));view.y=Math.max(-my,Math.min(my,view.y));img.style.transition=a?'transform .2s':'none';img.style.transform=`translate(${view.x}px,${view.y}px) scale(${view.s})`}
-function viewShow(i){view.i=i;view.s=1;view.x=view.y=0;let h=types[i];$('viewerImg').src=currentArt(i).url;$('viewerImg').alt=h.name+' 전체 일러스트';$('viewerName').textContent=h.name;$('viewerSub').textContent='“'+stories[i].quote+'”';$('viewerSub').classList.remove('show');void $('viewerSub').offsetWidth;$('viewerSub').classList.add('show');let l=viewList();$('viewerCount').textContent=(l.indexOf(i)+1)+' / '+l.length;viewApply(false)}
+function viewApply(a){let img=$('viewerImg'),st=$('viewerStage'),mx=Math.max(0,(img.clientWidth*view.s-st.clientWidth)/2),my=Math.max(0,(img.clientHeight*view.s-st.clientHeight)/2);view.x=Math.max(-mx,Math.min(mx,view.x));view.y=Math.max(-my,Math.min(my,view.y));img.style.transition=a?'transform .2s':'none';img.style.transform=`translate(${view.x+view.sw}px,${view.y}px) scale(${view.s})`}
+function viewShow(i){view.i=i;view.s=1;view.x=view.y=view.sw=0;let h=types[i];$('viewerImg').src=currentArt(i).url;$('viewerImg').alt=h.name+' 전체 일러스트';$('viewerName').textContent=h.name;$('viewerSub').textContent='“'+stories[i].quote+'”';$('viewerSub').classList.remove('show');void $('viewerSub').offsetWidth;$('viewerSub').classList.add('show');let l=viewList();$('viewerCount').textContent=(l.indexOf(i)+1)+' / '+l.length;viewApply(false)}
 function viewStep(d){let l=viewList(),n=l.indexOf(view.i)+d;if(n<0||n>=l.length)return false;viewShow(l[n]);return true}
 function openViewer(i){view.i=i;$('artViewer').showModal();viewShow(i)}
 function viewClose(){$('artViewer').close();if(view.i!==detailIndex){detailIndex=view.i;renderDetail()}}
 (()=>{let st=$('viewerStage'),pts=view.pts,dist=()=>{let [a,b]=[...pts.values()];return Math.hypot(a.x-b.x,a.y-b.y)};
 st.onpointerdown=e=>{st.setPointerCapture(e.pointerId);pts.set(e.pointerId,{x:e.clientX,y:e.clientY});view.moved=false;if(pts.size===2){view.d0=dist();view.s0=view.s}else view.start={x:e.clientX,y:e.clientY,vx:view.x,vy:view.y}};
-st.onpointermove=e=>{if(!pts.has(e.pointerId))return;let p=pts.get(e.pointerId),dx=e.clientX-p.x,dy=e.clientY-p.y;pts.set(e.pointerId,{x:e.clientX,y:e.clientY});if(pts.size===2){view.s=Math.max(1,Math.min(5,view.s0*dist()/view.d0));view.x+=dx/2;view.y+=dy/2;view.moved=true;viewApply(false)}else if(view.start){let tx=e.clientX-view.start.x,ty=e.clientY-view.start.y;if(Math.abs(tx)+Math.abs(ty)>6)view.moved=true;if(view.s>1){view.x=view.start.vx+tx;view.y=view.start.vy+ty}else view.x=tx;viewApply(false)}};
-let up=e=>{if(!pts.has(e.pointerId))return;pts.delete(e.pointerId);if(pts.size===1){let [p]=pts.values();view.start={x:p.x,y:p.y,vx:view.x,vy:view.y};return}if(pts.size)return;if(view.s<1.05){view.s=1;let tx=view.x;view.x=view.y=0;if(Math.abs(tx)>60&&viewStep(tx<0?1:-1))return}viewApply(true);view.start=null};
+st.onpointermove=e=>{if(!pts.has(e.pointerId))return;let p=pts.get(e.pointerId),dx=e.clientX-p.x,dy=e.clientY-p.y;pts.set(e.pointerId,{x:e.clientX,y:e.clientY});if(pts.size===2){view.s=Math.max(1,Math.min(5,view.s0*dist()/view.d0));view.x+=dx/2;view.y+=dy/2;view.moved=true;viewApply(false)}else if(view.start){let tx=e.clientX-view.start.x,ty=e.clientY-view.start.y;if(Math.abs(tx)+Math.abs(ty)>6)view.moved=true;if(view.s>1){view.x=view.start.vx+tx;view.y=view.start.vy+ty}else view.sw=tx;viewApply(false)}};
+let up=e=>{if(!pts.has(e.pointerId))return;pts.delete(e.pointerId);if(pts.size===1){let [p]=pts.values();view.start={x:p.x,y:p.y,vx:view.x,vy:view.y};return}if(pts.size)return;if(view.s<1.05){view.s=1;let tx=view.sw;view.x=view.y=view.sw=0;if(Math.abs(tx)>60&&viewStep(tx<0?1:-1))return}viewApply(true);view.start=null};
 st.onpointerup=up;st.onpointercancel=up;
 st.onwheel=e=>{e.preventDefault();view.s=Math.max(1,Math.min(5,view.s*(e.deltaY<0?1.15:1/1.15)));if(view.s===1)view.x=view.y=0;viewApply(false)};
-st.ondblclick=()=>{view.s=view.s>1?1:2.5;view.x=view.y=0;viewApply(true)};
+st.ondblclick=()=>{view.s=view.s>1?1:2.5;view.x=view.y=view.sw=0;viewApply(true)};
 ['gesturestart','gesturechange'].forEach(t=>st.addEventListener(t,e=>e.preventDefault()));
 $('viewerPrev').onclick=()=>viewStep(-1);$('viewerNext').onclick=()=>viewStep(1);$('closeViewer').onclick=viewClose;
 $('artViewer').addEventListener('cancel',e=>{e.preventDefault();viewClose()});
