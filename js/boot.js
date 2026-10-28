@@ -19,18 +19,28 @@
     if (value && typeof value === 'object') { Object.values(value).forEach(deepFreeze); Object.freeze(value); }
     return value;
   };
-  const load = ([key, url]) => fetch(url).then(response => {
+  // cache: 'no-cache' asks the server every time (a cheap 304 when unchanged), so a new deploy
+  // shows up on the next reload instead of after GitHub Pages' 10-minute cache.
+  const text = url => fetch(url, { cache: 'no-cache' }).then(response => {
     if (!response.ok) throw Error(url + ' ' + response.status);
-    return response.json();
-  }).then(value => [key, value]);
-  Promise.all(Object.entries(dataFiles).map(load)).then(entries => {
+    return response.text();
+  });
+  const load = ([key, url]) => text(url).then(value => [key, JSON.parse(value)]);
+  // Stylesheets are linked in index.html; swap each for a freshly checked copy.
+  document.querySelectorAll('link[rel="stylesheet"]').forEach(link => {
+    text(link.getAttribute('href')).then(css => {
+      const style = document.createElement('style');
+      style.textContent = css;
+      link.replaceWith(style);
+    }).catch(() => {});
+  });
+  Promise.all([Promise.all(Object.entries(dataFiles).map(load)), Promise.all(scripts.map(text))]).then(([entries, codes]) => {
     window.ASHWARD_DATA = deepFreeze(Object.fromEntries(entries));
-    for (const src of scripts) {
+    codes.forEach((code, n) => {
       const script = document.createElement('script');
-      script.src = src;
-      script.async = false;
+      script.textContent = code + '\n//# sourceURL=' + new URL(scripts[n], location.href).href;
       document.body.appendChild(script);
-    }
+    });
   }).catch(error => {
     console.error(error);
     const message = document.createElement('p');

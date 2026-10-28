@@ -40,6 +40,7 @@ data/
   battlefield.json      격자 크기(56px × 15열 × 10행)와 바위 칸 위치
 js/
   boot.js               data/*.json을 모두 읽어 window.ASHWARD_DATA(동결 객체)로 만든 뒤 아래 스크립트를 순서대로 실행
+                        (data·JS·CSS를 cache:'no-cache'로 받아 배포 직후에도 새 파일이 바로 반영됨. boot.js 자체를 고치면 index.html의 boot.js?v=N을 올림)
   config.js             BALANCE(=balance.json), STAGES(=stages.json) 단축 상수
   assets.js             fullArtUrl(i), portraitUrl(i) — 영웅 인덱스 → 이미지 경로
   battlefield.js        Battlefield: 격자 칸, 길(road), 3개 차선 경로, 좌표 변환
