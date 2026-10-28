@@ -46,7 +46,9 @@ js/
   battlefield.js        Battlefield: 격자 칸, 길(road), 3개 차선 경로, 좌표 변환
   heroes.js             types(영웅 배열), artNames, legacyRoster/mainRoster/newRoster, portraits(캔버스용 Image), rangeAt, placementLabel
   save.js               save 객체 로드·이전(마이그레이션), persist() — localStorage 'ashward-v1'
-  battle-render.js      캔버스 그리기: line, drawRange, draw (능력 연출: 링·번개·글자 팝업·지면 효과·상태 아이콘)
+  battle-art.js         전투 화면 그림을 한곳에 모음(BattleArt): 바닥·돌길·바위·성문·입구 질감, 영웅 원형 토큰, 적·보스 실루엣, 격자, 피해 숫자·파편·보스 등장 연출.
+                        `BattleArt.config.images`에 경로를 적으면 바닥·길·바위·성문·입구·적·보스를 그림 파일로 바꿔 끼울 수 있음(비우면 코드로 그린 기본 그림)
+  battle-render.js      캔버스 그리기: line, drawRange, draw (캔버스 해상도 맞춤, 격자는 배치 중에만 표시, 능력 연출: 링·번개·글자 팝업·지면 효과·상태 아이콘)
   abilities.js          영웅 고유 능력 28종(type별 동작)과 전투 중 상태(표식·빙결·화상·독·지대). 수치는 heroes.json의 ability에서 읽음
   battle.js             $ 헬퍼, 전투 상태, 스테이지 선택, 웨이브·적·영웅 시뮬레이션(step), 배치 입력, HUD, 게임 루프 시작
   collection.js         stories, 도감 렌더링, 필터, 영웅 상세, 강화·각성·즐겨찾기, 소환, 탭 전환, toast
@@ -60,7 +62,7 @@ tests/check.js          Node로 돌리는 정적 검사 (의존성 없음)
 - 모든 JS는 **모듈이 아닌 일반 스크립트**입니다. 최상위 `const`/`let`/`function`이 파일 사이에서 공유됩니다
   (예: `battle.js`의 `$`, `units`, `running`을 `collection.js`, `backup-ui.js`가 그대로 씀).
 - 실행 순서는 `js/boot.js`의 `scripts` 배열이 정합니다:
-  `config → assets → battlefield → heroes → save → battle-render → abilities → battle → collection → backup-codec → backup-ui`
+  `config → assets → battlefield → heroes → save → battle-art → battle-render → abilities → battle → collection → backup-codec → backup-ui`
 - 파일 최상위에서 **바로 실행되는 코드**는 앞 파일에서 정의된 것만 쓸 수 있습니다. 함수 안에서는 뒤 파일의 것도 써도 됩니다
   (호출 시점에 이미 로드되어 있기 때문). 기존 코드의 `typeof renderCollection==='function'`, `typeof toast==='function'` 검사는 이 순서 때문에 있으니 지우지 마세요.
 - 새 JS 파일을 추가하면 `js/boot.js`의 `scripts`에 넣어야 실행됩니다. 새 data 파일은 `dataFiles`에 넣고 `ASHWARD_DATA.<키>`로 읽습니다.
