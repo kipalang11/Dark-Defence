@@ -12,7 +12,7 @@
   };
   const scripts = [
     'js/config.js', 'js/assets.js', 'js/battlefield.js', 'js/heroes.js', 'js/save.js',
-    'js/battle-render.js', 'js/battle.js', 'js/collection.js',
+    'js/battle-render.js', 'js/abilities.js', 'js/battle.js', 'js/collection.js',
     'js/backup-codec.js', 'js/backup-ui.js'
   ];
   const deepFreeze = value => {
