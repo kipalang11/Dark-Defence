@@ -32,7 +32,7 @@ css/
   hero-classes.css      전신 일러스트 표시, 클래스 배지, 배치 안내
   battle.css            전투 화면(전체 화면 고정), 하단 영웅 도크, 골드 바
 data/
-  heroes.json           영웅 28명의 수치 (배열 순서 = 저장 인덱스, 아래 규칙 참고)
+  heroes.json           영웅 28명의 수치와 고유 능력 `ability`(type + 수치). 배열 순서 = 저장 인덱스, 아래 규칙 참고
   hero-classes.json     클래스 8종의 이름과 배치 위치(melee=길 위, ranged=길 밖)
   stories.json          영웅별 칭호·소속·대사·이야기·스킬 설명 (heroes.json과 같은 순서)
   stages.json           스테이지 목록, 웨이브 수, 적·보스 수치, 승리 보상
@@ -46,7 +46,8 @@ js/
   battlefield.js        Battlefield: 격자 칸, 길(road), 3개 차선 경로, 좌표 변환
   heroes.js             types(영웅 배열), artNames, legacyRoster/mainRoster/newRoster, portraits(캔버스용 Image), rangeAt, placementLabel
   save.js               save 객체 로드·이전(마이그레이션), persist() — localStorage 'ashward-v1'
-  battle-render.js      캔버스 그리기: line, drawRange, draw
+  battle-render.js      캔버스 그리기: line, drawRange, draw (능력 연출: 링·번개·글자 팝업·지면 효과·상태 아이콘)
+  abilities.js          영웅 고유 능력 28종(type별 동작)과 전투 중 상태(표식·빙결·화상·독·지대). 수치는 heroes.json의 ability에서 읽음
   battle.js             $ 헬퍼, 전투 상태, 스테이지 선택, 웨이브·적·영웅 시뮬레이션(step), 배치 입력, HUD, 게임 루프 시작
   collection.js         stories, 도감 렌더링, 필터, 영웅 상세, 강화·각성·즐겨찾기, 소환, 탭 전환, toast
   backup-codec.js       BackupCodec: 백업 JSON 생성·검증·파싱 (Node에서도 require 가능)
@@ -59,7 +60,7 @@ tests/check.js          Node로 돌리는 정적 검사 (의존성 없음)
 - 모든 JS는 **모듈이 아닌 일반 스크립트**입니다. 최상위 `const`/`let`/`function`이 파일 사이에서 공유됩니다
   (예: `battle.js`의 `$`, `units`, `running`을 `collection.js`, `backup-ui.js`가 그대로 씀).
 - 실행 순서는 `js/boot.js`의 `scripts` 배열이 정합니다:
-  `config → assets → battlefield → heroes → save → battle-render → battle → collection → backup-codec → backup-ui`
+  `config → assets → battlefield → heroes → save → battle-render → abilities → battle → collection → backup-codec → backup-ui`
 - 파일 최상위에서 **바로 실행되는 코드**는 앞 파일에서 정의된 것만 쓸 수 있습니다. 함수 안에서는 뒤 파일의 것도 써도 됩니다
   (호출 시점에 이미 로드되어 있기 때문). 기존 코드의 `typeof renderCollection==='function'`, `typeof toast==='function'` 검사는 이 순서 때문에 있으니 지우지 마세요.
 - 새 JS 파일을 추가하면 `js/boot.js`의 `scripts`에 넣어야 실행됩니다. 새 data 파일은 `dataFiles`에 넣고 `ASHWARD_DATA.<키>`로 읽습니다.
@@ -88,6 +89,7 @@ tests/check.js          Node로 돌리는 정적 검사 (의존성 없음)
   - `index.html`: `＋ 골드 10,000`, `골드 +10,000`, `소환석 +10` 버튼, `5회마다 미보유 영웅 확정`, 도감 필터의 `일반 영웅 26명`·`신규 영웅 · 16명`·`기존 영웅 · 2명`, 첫 표시값 `2 / 26`, 플레이 안내 대화상자(웨이브 6개, 각성 5%·125% 등)
   - `data/stories.json`의 `description`(예: 공격력 70%, 0.42초)
   - `js/collection.js` 상세 화면의 `각성마다 … +5% (5단계에서 최대 +25%)`
+- 영웅 고유 능력은 `data/heroes.json`의 `ability: { type, ...수치 }`입니다. 영웅마다 `type`이 달라야 하며(`tests/check.js`가 검사), 새 `type`은 `js/abilities.js`에 동작을 추가해야 합니다. 범위형 수치는 `radius`로 적으면 각성 보너스가 자동 적용됩니다. 능력 설명(`data/stories.json`의 `skill`·`description`)의 숫자는 `ability` 수치와 직접 맞춥니다.
 - 영웅 `range`는 실제 적용 사거리입니다. 근접 클래스는 이미 짧은 값으로 들어가 있습니다.
 - 스테이지의 `difficulty`는 적 체력·적 공격력 배수, `goldReward`는 승리 골드, `id`는 '최고 클리어 n장' 기록값입니다. 스테이지를 추가하면 선택 목록은 자동으로 생깁니다.
 - `data/battlefield.json`의 격자 크기를 바꾸면 `js/battlefield.js`의 `road()`·차선 좌표와 `js/battle-render.js`의 840×560/56px 값도 함께 고쳐야 합니다. 바위 위치(`obstacles`, "열,행")만 바꾸는 것은 안전합니다.

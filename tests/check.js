@@ -38,6 +38,16 @@ check('영웅 수치와 클래스가 유효함', () => {
   Object.values(classes).forEach(c => assert.ok(['melee', 'ranged'].includes(c.deployment)));
   assert.ok(!heroes[0].legacy && !heroes[1].legacy, '카엘·실바는 기본 지급 영웅');
 });
+check('영웅마다 고유한 ability.type이 있고 수치가 숫자임', () => {
+  const types = heroes.map(h => { assert.ok(h.ability && typeof h.ability.type === 'string', h.id + '.ability'); return h.ability.type; });
+  assert.strictEqual(new Set(types).size, heroes.length, '능력 type 중복: ' + types.filter((x, i) => types.indexOf(x) !== i));
+  heroes.forEach(h => Object.entries(h.ability).forEach(([k, v]) => { if (k !== 'type') assert.ok(Number.isFinite(v) && v >= 0, h.id + '.ability.' + k); }));
+  heroes.forEach(h => ['slow', 'splash', 'splashFactor', 'leech', 'aura', 'auraRange', 'poison'].forEach(k => assert.ok(!(k in h), h.id + ' 옛 필드 ' + k)));
+});
+check('battle 코드가 처리하는 능력 type과 heroes.json이 일치함', () => {
+  const src = fs.readFileSync(path.join(root, 'js/abilities.js'), 'utf8');
+  heroes.forEach(h => assert.ok(src.includes("'" + h.ability.type + "'"), h.id + ' type ' + h.ability.type + ' 구현 없음'));
+});
 check('모든 영웅 이미지 파일이 있음', () => {
   heroes.forEach(h => {
     assert.ok(exists('assets/' + h.id + '.webp'), 'assets/' + h.id + '.webp');

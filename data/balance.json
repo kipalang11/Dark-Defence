@@ -8,5 +8,5 @@
   "level": { "upgradeGoldPerLevel": 120, "hpPerLevel": 0.15, "powerPerLevel": 0.2 },
   "awaken": { "shardCost": 3, "bonusPerStage": 0.05 },
   "summon": { "pityEvery": 5 },
-  "combat": { "blockRadius": 55, "blockSpeedFactor": 0.18, "slowSpeedFactor": 0.5, "poisonSeconds": 3 }
+  "combat": { "blockRadius": 55, "blockSpeedFactor": 0.18 }
 }

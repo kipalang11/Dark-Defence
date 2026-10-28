@@ -2,7 +2,7 @@
   {
     "id": "kael",
     "name": "카엘",
-    "role": "철벽 기사 · 저지",
+    "role": "철벽 기사 · 반격",
     "icon": "♜",
     "color": "#849d95",
     "cost": 25,
@@ -10,6 +10,10 @@
     "dmg": 22,
     "rate": 0.8,
     "hp": 260,
+    "ability": {
+      "type": "thorns",
+      "factor": 0.8
+    },
     "block": true,
     "classId": "guardian",
     "gender": "male",
@@ -20,7 +24,7 @@
   {
     "id": "silva",
     "name": "실바",
-    "role": "달빛 궁수 · 속사",
+    "role": "달빛 궁수 · 표식",
     "icon": "➶",
     "color": "#81b597",
     "cost": 30,
@@ -28,6 +32,12 @@
     "dmg": 25,
     "rate": 0.65,
     "hp": 110,
+    "ability": {
+      "type": "mark",
+      "every": 4,
+      "bonus": 0.25,
+      "seconds": 4
+    },
     "classId": "archer",
     "gender": "female",
     "legacy": false,
@@ -45,8 +55,11 @@
     "dmg": 34,
     "rate": 1.4,
     "hp": 100,
-    "splash": 65,
-    "splashFactor": 0.7,
+    "ability": {
+      "type": "blast",
+      "radius": 65,
+      "factor": 0.7
+    },
     "classId": "mage",
     "gender": "female",
     "legacy": false,
@@ -56,7 +69,7 @@
   {
     "id": "lumia",
     "name": "루미아",
-    "role": "별빛 치유사 · 회복",
+    "role": "별빛 치유사 · 연쇄 회복",
     "icon": "✧",
     "color": "#baa4d3",
     "cost": 25,
@@ -64,6 +77,10 @@
     "dmg": 18,
     "rate": 1,
     "hp": 130,
+    "ability": {
+      "type": "chainHeal",
+      "factor": 0.6
+    },
     "heal": true,
     "classId": "healer",
     "gender": "female",
@@ -74,7 +91,7 @@
   {
     "id": "raven",
     "name": "레이븐",
-    "role": "그림자 사수 · 강타",
+    "role": "그림자 사수 · 처형",
     "icon": "♞",
     "color": "#9296bc",
     "cost": 45,
@@ -82,6 +99,11 @@
     "dmg": 64,
     "rate": 1.8,
     "hp": 95,
+    "ability": {
+      "type": "execute",
+      "threshold": 0.3,
+      "bonus": 1.2
+    },
     "classId": "archer",
     "gender": "male",
     "legacy": true,
@@ -91,7 +113,7 @@
   {
     "id": "born",
     "name": "보른",
-    "role": "서리 수호자 · 둔화",
+    "role": "서리 수호자 · 누적 둔화",
     "icon": "❖",
     "color": "#88bbc4",
     "cost": 35,
@@ -99,7 +121,12 @@
     "dmg": 20,
     "rate": 1.1,
     "hp": 190,
-    "slow": 2,
+    "ability": {
+      "type": "frostStack",
+      "perStack": 0.15,
+      "max": 4,
+      "seconds": 3
+    },
     "classId": "warrior",
     "gender": "male",
     "legacy": true,
@@ -109,7 +136,7 @@
   {
     "id": "serena",
     "name": "세레나",
-    "role": "왕실 기사단장 · 저지",
+    "role": "왕실 기사단장 · 방벽",
     "icon": "♜",
     "color": "#bd9c64",
     "cost": 35,
@@ -117,6 +144,11 @@
     "dmg": 27,
     "rate": 1,
     "hp": 320,
+    "ability": {
+      "type": "guardAura",
+      "radius": 150,
+      "reduction": 0.2
+    },
     "block": true,
     "classId": "guardian",
     "gender": "female",
@@ -127,7 +159,7 @@
   {
     "id": "nisha",
     "name": "니샤",
-    "role": "사막의 쌍검 · 연격",
+    "role": "사막의 쌍검 · 연무",
     "icon": "⚔",
     "color": "#d9a367",
     "cost": 25,
@@ -135,6 +167,11 @@
     "dmg": 20,
     "rate": 0.42,
     "hp": 145,
+    "ability": {
+      "type": "blind",
+      "chance": 0.25,
+      "seconds": 2
+    },
     "classId": "assassin",
     "gender": "female",
     "legacy": false,
@@ -152,7 +189,10 @@
     "dmg": 43,
     "rate": 1.3,
     "hp": 150,
-    "leech": 0.3,
+    "ability": {
+      "type": "leech",
+      "ratio": 0.3
+    },
     "classId": "mage",
     "gender": "female",
     "legacy": false,
@@ -162,7 +202,7 @@
   {
     "id": "aria",
     "name": "아리아",
-    "role": "바람의 탐험가 · 격려",
+    "role": "바람의 탐험가 · 가속",
     "icon": "➶",
     "color": "#70beb6",
     "cost": 30,
@@ -170,9 +210,12 @@
     "dmg": 23,
     "rate": 0.85,
     "hp": 170,
-    "aura": 0.15,
+    "ability": {
+      "type": "hasteAura",
+      "radius": 155,
+      "bonus": 0.15
+    },
     "classId": "lancer",
-    "auraRange": 155,
     "gender": "female",
     "legacy": false,
     "newHero": false,
@@ -181,7 +224,7 @@
   {
     "id": "frost",
     "name": "프로스트",
-    "role": "빙설의 여왕 · 둔화",
+    "role": "빙설의 여왕 · 냉기 영역",
     "icon": "❖",
     "color": "#9acddb",
     "cost": 40,
@@ -189,7 +232,10 @@
     "dmg": 27,
     "rate": 1.2,
     "hp": 235,
-    "slow": 2,
+    "ability": {
+      "type": "frostField",
+      "slow": 0.3
+    },
     "classId": "warrior",
     "gender": "female",
     "legacy": false,
@@ -199,7 +245,7 @@
   {
     "id": "mirea",
     "name": "미레아",
-    "role": "달의 환술사 · 파동",
+    "role": "달의 환술사 · 환영",
     "icon": "✧",
     "color": "#ba88dc",
     "cost": 40,
@@ -207,8 +253,11 @@
     "dmg": 29,
     "rate": 1.25,
     "hp": 120,
-    "splash": 65,
-    "splashFactor": 0.7,
+    "ability": {
+      "type": "echo",
+      "chance": 0.25,
+      "factor": 0.6
+    },
     "classId": "mage",
     "gender": "female",
     "legacy": false,
@@ -218,7 +267,7 @@
   {
     "id": "nox",
     "name": "녹스",
-    "role": "그림자 암살자 · 속공",
+    "role": "그림자 암살자 · 암습",
     "icon": "✦",
     "color": "#a5a2bd",
     "cost": 25,
@@ -226,6 +275,10 @@
     "dmg": 16,
     "rate": 0.32,
     "hp": 130,
+    "ability": {
+      "type": "ambush",
+      "factor": 3
+    },
     "classId": "assassin",
     "gender": "female",
     "legacy": false,
@@ -243,8 +296,12 @@
     "dmg": 27,
     "rate": 0.75,
     "hp": 175,
-    "splash": 45,
-    "splashFactor": 0.35,
+    "ability": {
+      "type": "chain",
+      "targets": 3,
+      "radius": 90,
+      "factor": 0.6
+    },
     "classId": "warrior",
     "gender": "female",
     "legacy": false,
@@ -254,7 +311,7 @@
   {
     "id": "briar",
     "name": "브라이어",
-    "role": "숲의 치유사 · 회복",
+    "role": "숲의 치유사 · 재생",
     "icon": "✧",
     "color": "#92b77a",
     "cost": 30,
@@ -262,6 +319,12 @@
     "dmg": 25,
     "rate": 1.1,
     "hp": 165,
+    "ability": {
+      "type": "regen",
+      "instant": 0.6,
+      "perSecond": 0.35,
+      "seconds": 4
+    },
     "heal": true,
     "classId": "healer",
     "gender": "female",
@@ -272,7 +335,7 @@
   {
     "id": "astra",
     "name": "아스트라",
-    "role": "별의 관측자 · 원거리",
+    "role": "별의 관측자 · 유성",
     "icon": "✦",
     "color": "#a1b3e3",
     "cost": 45,
@@ -280,8 +343,13 @@
     "dmg": 50,
     "rate": 1.65,
     "hp": 110,
-    "splash": 60,
-    "splashFactor": 0.45,
+    "ability": {
+      "type": "meteor",
+      "every": 4,
+      "radius": 70,
+      "factor": 2.5,
+      "delay": 1
+    },
     "classId": "mage",
     "gender": "female",
     "legacy": false,
@@ -291,7 +359,7 @@
   {
     "id": "morwen",
     "name": "모르웬",
-    "role": "가시의 마녀 · 맹독",
+    "role": "가시의 마녀 · 독 늪",
     "icon": "✦",
     "color": "#9fc66b",
     "cost": 35,
@@ -299,7 +367,12 @@
     "dmg": 24,
     "rate": 1.25,
     "hp": 140,
-    "poison": 0.2,
+    "ability": {
+      "type": "swamp",
+      "radius": 45,
+      "seconds": 3,
+      "perSecond": 0.3
+    },
     "classId": "mage",
     "gender": "female",
     "legacy": false,
@@ -309,7 +382,7 @@
   {
     "id": "zephyra",
     "name": "제피라",
-    "role": "고산의 궁수 · 속사",
+    "role": "고산의 궁수 · 관통",
     "icon": "✦",
     "color": "#75c9ce",
     "cost": 35,
@@ -317,6 +390,12 @@
     "dmg": 22,
     "rate": 0.6,
     "hp": 105,
+    "ability": {
+      "type": "pierce",
+      "targets": 2,
+      "factor": 0.7,
+      "radius": 70
+    },
     "classId": "archer",
     "gender": "female",
     "legacy": false,
@@ -326,7 +405,7 @@
   {
     "id": "pyra",
     "name": "파이라",
-    "role": "화염 검사 · 근접 범위",
+    "role": "화염 검사 · 연쇄 폭발",
     "icon": "✦",
     "color": "#e79a6b",
     "cost": 35,
@@ -334,8 +413,11 @@
     "dmg": 33,
     "rate": 1,
     "hp": 210,
-    "splash": 50,
-    "splashFactor": 0.5,
+    "ability": {
+      "type": "deathBlast",
+      "radius": 70,
+      "factor": 1.5
+    },
     "classId": "warrior",
     "gender": "female",
     "legacy": false,
@@ -345,7 +427,7 @@
   {
     "id": "aurelia",
     "name": "아우렐리아",
-    "role": "천상의 날개 · 치유",
+    "role": "천상의 날개 · 가호",
     "icon": "✧",
     "color": "#e8d4a0",
     "cost": 45,
@@ -353,6 +435,12 @@
     "dmg": 36,
     "rate": 1.5,
     "hp": 125,
+    "ability": {
+      "type": "ward",
+      "radius": 195,
+      "hpRatio": 0.5,
+      "cooldown": 45
+    },
     "heal": true,
     "classId": "healer",
     "gender": "female",
@@ -363,7 +451,7 @@
   {
     "id": "leona",
     "name": "레오나",
-    "role": "백금 성기사 · 저지",
+    "role": "백금 성기사 · 수호 회복",
     "icon": "✦",
     "color": "#d8c286",
     "cost": 40,
@@ -371,8 +459,11 @@
     "dmg": 24,
     "rate": 1.1,
     "hp": 350,
+    "ability": {
+      "type": "allyLeech",
+      "ratio": 0.25
+    },
     "block": true,
-    "leech": 0.2,
     "classId": "guardian",
     "gender": "female",
     "legacy": false,
@@ -382,7 +473,7 @@
   {
     "id": "nerissa",
     "name": "네리사",
-    "role": "심해의 마법사 · 둔화",
+    "role": "심해의 마법사 · 파도",
     "icon": "✦",
     "color": "#79bccc",
     "cost": 40,
@@ -390,9 +481,13 @@
     "dmg": 28,
     "rate": 1.4,
     "hp": 145,
-    "slow": 2.5,
-    "splash": 55,
-    "splashFactor": 0.4,
+    "ability": {
+      "type": "tide",
+      "push": 35,
+      "bossFactor": 0.5,
+      "radius": 55,
+      "factor": 0.4
+    },
     "classId": "mage",
     "gender": "female",
     "legacy": false,
@@ -402,7 +497,7 @@
   {
     "id": "solara",
     "name": "솔라라",
-    "role": "태양의 수호자 · 격려",
+    "role": "태양의 수호자 · 공격 강화",
     "icon": "✧",
     "color": "#e6b866",
     "cost": 45,
@@ -410,7 +505,11 @@
     "dmg": 22,
     "rate": 1,
     "hp": 195,
-    "aura": 0.2,
+    "ability": {
+      "type": "powerAura",
+      "radius": 170,
+      "bonus": 0.2
+    },
     "classId": "support",
     "gender": "female",
     "legacy": false,
@@ -420,7 +519,7 @@
   {
     "id": "glacia",
     "name": "글라시아",
-    "role": "빙결의 수확자 · 근접 범위",
+    "role": "빙결의 수확자 · 빙결",
     "icon": "✦",
     "color": "#8b9fd6",
     "cost": 35,
@@ -428,8 +527,12 @@
     "dmg": 26,
     "rate": 1,
     "hp": 190,
-    "splash": 50,
-    "splashFactor": 0.4,
+    "ability": {
+      "type": "freeze",
+      "every": 3,
+      "seconds": 1.5,
+      "bossSeconds": 0.8
+    },
     "classId": "lancer",
     "gender": "female",
     "legacy": false,
@@ -447,9 +550,12 @@
     "dmg": 27,
     "rate": 1.25,
     "hp": 120,
-    "splash": 50,
-    "splashFactor": 0.3,
-    "poison": 0.15,
+    "ability": {
+      "type": "burn",
+      "seconds": 3,
+      "perSecond": 0.15,
+      "radius": 60
+    },
     "classId": "mage",
     "gender": "female",
     "legacy": false,
@@ -467,7 +573,11 @@
     "dmg": 18,
     "rate": 0.4,
     "hp": 140,
-    "poison": 0.15,
+    "ability": {
+      "type": "poison",
+      "seconds": 3,
+      "perSecond": 0.15
+    },
     "classId": "assassin",
     "gender": "female",
     "legacy": false,
@@ -477,7 +587,7 @@
   {
     "id": "elaine",
     "name": "엘레인",
-    "role": "빛의 여왕 · 회복",
+    "role": "빛의 여왕 · 가호",
     "icon": "✧",
     "color": "#e6dcc2",
     "cost": 35,
@@ -485,6 +595,11 @@
     "dmg": 26,
     "rate": 1.2,
     "hp": 150,
+    "ability": {
+      "type": "shield",
+      "reduction": 0.25,
+      "seconds": 3
+    },
     "heal": true,
     "classId": "healer",
     "gender": "female",
@@ -495,7 +610,7 @@
   {
     "id": "lyra",
     "name": "리라",
-    "role": "산맥의 음유시인 · 격려",
+    "role": "산맥의 음유시인 · 선율",
     "icon": "✧",
     "color": "#9ab3d6",
     "cost": 40,
@@ -503,7 +618,11 @@
     "dmg": 20,
     "rate": 0.9,
     "hp": 150,
-    "aura": 0.15,
+    "ability": {
+      "type": "manaPulse",
+      "interval": 3,
+      "mana": 5
+    },
     "classId": "support",
     "gender": "female",
     "legacy": false,
