@@ -7,7 +7,7 @@ const dist=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
 const ab=u=>types[u.type].ability||{};
 const abR=(u,kind='radius')=>rangeAt(u.type,kind);
 const live=e=>e.hp>0&&!e.escaped;
-function popup(x,y,text,color){fx.push({x,y:y-30,text,color,life:.9,max:.9})}
+function popup(x,y,text,color){let k=0;for(const f of fx)if(f.text&&f.life>f.max*.45&&Math.abs(f.x-x)<50&&Math.abs(f.y-(y-46))<60)k++;fx.push({x,y:y-46-Math.min(k,3)*15,text,color,life:.9,max:.9})}
 function ring(x,y,r,color,life=.5){fx.push({x,y,r,life,max:life,color,ring:true})}
 function beam(a,b,color,life=.25,zig=false){const f={x:a.x,y:a.y,tx:b.x,ty:b.y,life,max:life,color};if(zig){f.pts=[[a.x,a.y]];for(let k=1;k<5;k++)f.pts.push([a.x+(b.x-a.x)*k/5+(Math.random()-.5)*14,a.y+(b.y-a.y)*k/5+(Math.random()-.5)*14]);f.pts.push([b.x,b.y])}fx.push(f)}
 function unitPower(u){const t=types[u.type],base=t.dmg*(1+BALANCE.level.powerPerLevel*(save.levels[u.type]-1))*(1+BALANCE.awaken.bonusPerStage*save.awaken[u.type]);return base*(1+auraBonus(u,'powerAura'))}
