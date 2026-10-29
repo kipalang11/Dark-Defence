@@ -49,3 +49,6 @@
 @keyframes gather{from{opacity:.6;transform:scale(1.06)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){.fx-stage,.summon-card .flip{transition:none}.summon-card,.burst,.card-front img{animation:none!important}}
 .summon-card,.summon-card:hover,.summon-card:active{box-shadow:none;text-shadow:none;filter:none;transform:none}
+.summon-again{display:flex;align-items:center;justify-content:center;gap:8px;margin:0 0 12px}
+.summon-again[hidden]{display:none}
+.summon-again small{color:#aeb8aa;margin-right:8px}
