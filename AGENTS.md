@@ -21,8 +21,8 @@ python3 -m http.server 8000   # 저장소 루트에서 실행
 ```
 index.html              HTML 마크업만 있음. css/*.css를 순서대로 link하고 js/boot.js 하나만 불러옴
 .nojekyll
-assets/<id>.webp        영웅 전신 일러스트 28장 (도감 카드·상세·소환 결과·인트로)
-assets/portraits/<id>.webp  전투 아이콘·캔버스용 전신 초상 25장 (kael, raven, born은 없음 → 전신 일러스트를 잘라 씀)
+assets/<id>.webp        영웅 전신 일러스트 36장 (도감 카드·상세·소환 결과·인트로)
+assets/portraits/<id>.webp  전투 아이콘·캔버스용 전신 초상 33장 (kael, raven, born은 없음 → 전신 일러스트를 잘라 씀)
 assets/battle/          전투 화면 그림 7장(ground·road·rock·castle·entry·enemy·boss .webp). battle-art.js의 config.images가 가리킴. 규격의 3배 크기, ground·road는 이음새 없는 336px 타일, 나머지는 투명 배경
 assets/icons/<classId>.svg  클래스 8종 아이콘(SVG 직접 제작). hero-classes.css가 mask로 그려 글자 색을 따라감. 새 클래스를 만들면 같은 id의 SVG와 CSS 한 줄을 추가
 assets/fonts/           제목 글꼴 서브셋(Cinzel 라틴 + 나눔명조 ExtraBold 한글, OFL 라이선스 포함). 한글은 화면에 쓰는 글자만 담았으므로 제목류에 새 한글을 쓰면 pyftsubset으로 다시 만들어야 함(없는 글자는 기본 글꼴로 대체됨)
@@ -36,7 +36,7 @@ css/
   hero-classes.css      전신 일러스트 표시, 클래스 배지·아이콘, 배치 안내
   battle.css            전투 화면(전체 화면 고정), 하단 영웅 도크, 골드 바
 data/
-  heroes.json           영웅 28명의 수치와 고유 능력 `ability`(type + 수치). 배열 순서 = 저장 인덱스, 아래 규칙 참고
+  heroes.json           영웅 36명의 수치와 고유 능력 `ability`(type + 수치). 배열 순서 = 저장 인덱스, 아래 규칙 참고
   hero-classes.json     클래스 8종의 이름과 배치 위치(melee=길 위, ranged=길 밖)
   stories.json          영웅별 칭호·소속·대사·이야기·스킬 설명 (heroes.json과 같은 순서)
   stages.json           스테이지 목록, 웨이브 수, 적·보스 수치, 승리 보상
