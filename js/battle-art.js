@@ -6,13 +6,13 @@ const BattleArt=(()=>{
 const W=Battlefield.width,H=Battlefield.height,C=Battlefield.cell,cols=Battlefield.cols,rows=Battlefield.rows;
 const config={
   images:{
-    ground:'',  // 바닥 타일(정사각형, 화면에서 tile px로 반복)
-    road:'',    // 길 타일(정사각형, tile px로 반복)
-    rock:'',    // 바위 한 칸(56×56, 투명 배경)
-    castle:'',  // 성문(56×168, 투명 배경) — 성채 칸 3개 크기
-    entry:'',   // 적 입구(56×112, 투명 배경) — 입구 칸 2개 크기
-    enemy:'',   // 일반 적(정사각형, 오른쪽을 보는 그림)
-    boss:''     // 보스(정사각형)
+    ground:'assets/battle/ground.webp',  // 바닥 타일(정사각형 336px = tile의 3배, 화면에서 tile px로 이음새 없이 반복)
+    road:'assets/battle/road.webp',    // 길 타일(정사각형 336px, tile px로 이음새 없이 반복)
+    rock:'assets/battle/rock.webp',    // 바위 한 칸(56×56의 3배 168×168, 투명 배경)
+    castle:'assets/battle/castle.webp',  // 성문(56×168의 3배 168×504, 투명 배경) — 성채 칸 3개 크기
+    entry:'assets/battle/entry.webp',   // 적 입구(56×112의 3배 168×336, 투명 배경) — 입구 칸 2개 크기
+    enemy:'assets/battle/enemy.webp',   // 일반 적(40×40의 3배 120×120, 오른쪽을 보는 그림)
+    boss:'assets/battle/boss.webp'     // 보스(76×76의 3배 228×228)
   },
   tile:112,
   size:{enemy:40,boss:76},
@@ -133,9 +133,9 @@ function burst(x,y,n,colors,speed,life,size){for(let k=0;k<n&&parts.length<MAX_P
 function dust(x,y,n,r,life){for(let k=0;k<n&&parts.length<MAX_PARTS;k++){const a=Math.random()*Math.PI*2;parts.push({x:x+Math.cos(a)*r*.4,y:y+Math.sin(a)*r*.3,vx:Math.cos(a)*r*.9,vy:Math.sin(a)*r*.5,rot:0,vr:0,size:rand(6,12),life,max:life,color:'#b8a98c',kind:2})}}
 // 매 단계(step)마다: 피해 감지(깜빡임·숫자)
 function observe(dt){for(const e of enemies){e.age=(e.age||0)+dt;if(e.hitFlash>0)e.hitFlash-=dt;if(e.lastHp===undefined)e.lastHp=e.hp;const d=e.lastHp-e.hp;e.lastHp=e.hp;if(d>.01){e.hitFlash=.11;e.acc=(e.acc||0)+d}
-e.numCd=(e.numCd||0)-dt;if(e.acc>0&&(e.numCd<=0||e.hp<=0)){const big=e.acc>=e.max*.12;floater(e.x,e.y-(e.boss?config.size.boss:config.size.enemy)/2-12,String(Math.max(1,Math.round(e.acc))),big?'#ffd36a':e.boss?'#ffb09e':'#fff4d6',big?18:14);e.acc=0;e.numCd=.22}}
+e.numCd=(e.numCd||0)-dt;if(e.acc>0&&(e.numCd<=0||e.hp<=0)){const big=e.acc>=e.max*.12;const sz=e.boss?config.size.boss:config.size.enemy;floater(e.x+sz/2+6,e.y-sz/2+4,String(Math.max(1,Math.round(e.acc))),big?'#ffd36a':e.boss?'#ffb09e':'#fff4d6',big?18:14);e.acc=0;e.numCd=.22}}
 for(const u of units){if(u.hurt>0)u.hurt-=dt;if(u.lastHp===undefined)u.lastHp=u.hp;if(u.lastHp-u.hp>.01)u.hurt=.15;u.lastHp=u.hp}}
-function death(e){if(e.acc>0){floater(e.x,e.y-20,String(Math.max(1,Math.round(e.acc))),'#ffd36a',18);e.acc=0}
+function death(e){if(e.acc>0){floater(e.x+(e.boss?config.size.boss:config.size.enemy)/2+6,e.y-14,String(Math.max(1,Math.round(e.acc))),'#ffd36a',18);e.acc=0}
 const big=e.boss;burst(e.x,e.y,big?44:13,big?['#3a2a3e','#5a1c2a','#a592b4','#e0b45a']:['#2b2433','#665772','#a592b4'],big?190:130,big?1.1:.75,big?9:6);
 burst(e.x,e.y,big?18:5,['#ffcf70','#ff8a50'],big?170:110,big?.8:.5,big?4:2.6);dust(e.x,e.y+4,big?5:2,big?40:18,.55);
 if(big){shake=Math.max(shake,5);fx.push({x:e.x,y:e.y,r:150,life:.7,max:.7,color:'#ffcf70',burst:true})}}

@@ -23,6 +23,7 @@ index.html              HTML 마크업만 있음. css/*.css를 순서대로 link
 .nojekyll
 assets/<id>.webp        영웅 전신 일러스트 28장 (도감 카드·상세·소환 결과·인트로)
 assets/portraits/<id>.webp  전투 아이콘·캔버스용 전신 초상 25장 (kael, raven, born은 없음 → 전신 일러스트를 잘라 씀)
+assets/battle/          전투 화면 그림 7장(ground·road·rock·castle·entry·enemy·boss .webp). battle-art.js의 config.images가 가리킴. 규격의 3배 크기, ground·road는 이음새 없는 336px 타일, 나머지는 투명 배경
 assets/incoming/        새 영웅 원본 이미지를 올리는 곳 (게임이 읽지 않음, 아래 '새 영웅 반입 절차')
 docs/art/               캐릭터 아트 가이드: style-guide.md(화풍·구도·클래스 규칙), characters.md(영웅 설정 시트), prompt-template.md(이미지 생성 프롬프트)
 css/
