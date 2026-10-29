@@ -2,5 +2,13 @@
 .detail-art img{object-fit:contain;object-position:center top}
 
 /* Hero classes, deployment hints and awakened range stats. */
-.collection-filters{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end}.class-badge{display:inline-block;font-size:11px;line-height:1.6}.class-badge.melee,.placement-legend .melee{color:#efc46f}.class-badge.ranged,.placement-legend .ranged{color:#84d5e7}.battle-selection{margin:10px 0;color:#ead8ae;font-size:13px;line-height:1.6}.placement-legend{display:flex;flex-wrap:wrap;gap:8px 15px;margin:10px 0 14px;font-size:11px;color:#a8b9b3}.hero-stats{flex-wrap:wrap;gap:16px}.range-note{color:#c6d6c0!important}.hero .class-badge{font-size:10px}
-@media(max-width:600px){.collection-toolbar{align-items:flex-start;gap:10px}.collection-filters{max-width:58%;flex-direction:column}.collection-filters select{max-width:100%;font-size:12px}.battle-selection{font-size:12px}.placement-legend{font-size:10px}.hero-stats span{min-width:38%}}
+.collection-filters{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end}.class-badge{display:inline-block;font-size:11px;line-height:1.6}.class-badge.melee,.placement-legend .melee{color:#efc46f}.class-badge.ranged,.placement-legend .ranged{color:#84d5e7}.battle-selection{margin:10px 0;color:#ead8ae;font-size:13px;line-height:1.6}.placement-legend{display:flex;flex-wrap:wrap;gap:8px 15px;margin:10px 0 14px;font-size:11px;color:#a8b9b3}.range-note{color:#c6d6c0!important}.hero .class-badge{font-size:10px}
+@media(max-width:600px){.collection-toolbar{align-items:flex-start;gap:10px}.collection-filters{max-width:58%;flex-direction:column}.collection-filters select{max-width:100%;font-size:12px}.battle-selection{font-size:12px}.placement-legend{font-size:10px}}
+
+/* Class icons: assets/icons/<classId>.svg painted in the current text colour (mask), so one file serves every colour. */
+.cls-icon{display:inline-block;flex:none;width:1.35em;height:1.35em;vertical-align:-.3em;background:currentColor;-webkit-mask:var(--ic) center/contain no-repeat;mask:var(--ic) center/contain no-repeat}
+.cls-icon.guardian{--ic:url(assets/icons/guardian.svg)}.cls-icon.warrior{--ic:url(assets/icons/warrior.svg)}.cls-icon.assassin{--ic:url(assets/icons/assassin.svg)}.cls-icon.lancer{--ic:url(assets/icons/lancer.svg)}.cls-icon.archer{--ic:url(assets/icons/archer.svg)}.cls-icon.mage{--ic:url(assets/icons/mage.svg)}.cls-icon.healer{--ic:url(assets/icons/healer.svg)}.cls-icon.support{--ic:url(assets/icons/support.svg)}
+.cls-line{display:flex!important;align-items:center;gap:8px}.cls-line .cls-icon{width:22px;height:22px;color:var(--gold-hi);filter:drop-shadow(0 1px 2px #000)}
+.class-badge .cls-icon{color:var(--gold-hi);margin-right:2px}
+#battleView .battle-hero small{display:flex;align-items:center;justify-content:center;gap:3px}#battleView .battle-hero small .cls-icon{width:12px;height:12px;color:var(--gold)}
+.gmenu .cls-icon{width:22px;height:22px;color:var(--gold)}.gselect .cls-icon{width:20px;height:20px;color:var(--gold)}

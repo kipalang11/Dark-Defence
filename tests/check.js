@@ -54,6 +54,10 @@ check('모든 영웅 이미지 파일이 있음', () => {
     if (h.fullBodyPortrait) assert.ok(exists('assets/portraits/' + h.id + '.webp'), 'assets/portraits/' + h.id + '.webp');
   });
 });
+check('클래스 아이콘 SVG·제목 글꼴·장식 파일이 있음', () => {
+  Object.keys(classes).forEach(id => assert.ok(exists('assets/icons/' + id + '.svg'), 'assets/icons/' + id + '.svg'));
+  ['assets/fonts/title-hangul.woff2', 'assets/fonts/title-latin.woff2', 'assets/ornaments/corner.svg'].forEach(f => assert.ok(exists(f), f));
+});
 check('스테이지 id 중복 없음', () => {
   assert.strictEqual(new Set(stages.stages.map(s => s.id)).size, stages.stages.length);
   stages.stages.forEach(s => assert.ok(Number.isInteger(s.id) && s.id > 0 && s.difficulty > 0 && s.goldReward >= 0, s.name));
