@@ -30,9 +30,9 @@ $('tabCollection').onclick=()=>switchView('collection');$('tabBattle').onclick=(
 persist();renderCollection();
 
 
-// Fullscreen art viewer: pinch/wheel zoom, drag to pan, swipe (or arrows) to flip through owned heroes.
+// Fullscreen art viewer: pinch/wheel zoom, drag to pan, swipe (or arrows) to flip through every hero, owned or not.
 let view={sw:0,i:0,s:1,x:0,y:0,pts:new Map(),d0:0,s0:1,start:null,moved:false};
-const viewList=()=>{let l=types.map((_,i)=>i).filter(i=>save.owned[i]);if(!l.includes(view.i))l.push(view.i);return l.sort((a,b)=>a-b)};
+const viewList=()=>{return types.map((_,i)=>i)};
 function viewApply(a){let img=$('viewerImg'),st=$('viewerStage'),mx=Math.max(0,(img.clientWidth*view.s-st.clientWidth)/2),my=Math.max(0,(img.clientHeight*view.s-st.clientHeight)/2);view.x=Math.max(-mx,Math.min(mx,view.x));view.y=Math.max(-my,Math.min(my,view.y));img.style.transition=a?'transform .2s':'none';img.style.transform=`translate(${view.x+view.sw}px,${view.y}px) scale(${view.s})`}
 function viewShow(i){view.i=i;view.s=1;view.x=view.y=view.sw=0;let h=types[i];$('viewerImg').src=currentArt(i).url;$('viewerImg').alt=h.name+' 전체 일러스트';$('viewerName').textContent=h.name;$('viewerSub').textContent='“'+stories[i].quote+'”';$('viewerSub').classList.remove('show');void $('viewerSub').offsetWidth;$('viewerSub').classList.add('show');let l=viewList();$('viewerCount').textContent=(l.indexOf(i)+1)+' / '+l.length;viewApply(false)}
 function viewStep(d){let l=viewList(),n=l.indexOf(view.i)+d;if(n<0||n>=l.length)return false;viewShow(l[n]);return true}
