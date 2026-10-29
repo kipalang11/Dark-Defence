@@ -1,5 +1,5 @@
 /* 소환 연출: 어두운 인트로(마법진·빛 기둥) → 뒷면 카드 → 한 장씩 뒤집기 → 결과 모아보기. transform/opacity 위주라 아이패드에서도 부드럽게 동작 */
-.summon-dialog{position:relative;overflow-x:hidden}
+.summon-dialog{position:fixed;overflow-x:hidden;border-color:var(--gold-mid)}
 .summon-dialog::backdrop{background:#000b;transition:background .9s}
 .summon-dialog.fx-intro::backdrop,.summon-dialog.fx-reveal::backdrop{background:radial-gradient(ellipse at center,#1d1233ee,#000f 75%)}
 .summon-dialog.fx-intro,.summon-dialog.fx-reveal{background:radial-gradient(ellipse at center,#241a3c,#05080c 70%)}
@@ -15,7 +15,7 @@
 .summon-dialog.fx-intro>:not(.fx-stage),.summon-dialog.fx-intro #summonCards .summon-card{visibility:hidden}
 .summon-dialog.fx-reveal>small,.summon-dialog.fx-reveal>h2{opacity:.5}
 .summon-card,.summon-card:hover{background:none}
-.summon-card{border:0;padding:0;color:inherit;font:inherit;cursor:default;animation:none;perspective:900px;-webkit-tap-highlight-color:transparent}
+.summon-card{display:block;width:100%;border:0;padding:0;color:inherit;font:inherit;cursor:default;animation:none;perspective:900px;-webkit-tap-highlight-color:transparent}
 .fx-reveal .summon-card{animation:cardIn .6s calc(var(--d)*.12s) both}
 .summon-card .flip{display:block;position:relative;aspect-ratio:2/3;transform-style:preserve-3d;transition:transform .8s cubic-bezier(.2,.8,.2,1)}
 .summon-card.flipped .flip{transform:rotateY(180deg)}
@@ -48,3 +48,4 @@
 @keyframes shine{to{transform:translateX(100%)}}
 @keyframes gather{from{opacity:.6;transform:scale(1.06)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){.fx-stage,.summon-card .flip{transition:none}.summon-card,.burst,.card-front img{animation:none!important}}
+.summon-card,.summon-card:hover,.summon-card:active{box-shadow:none;text-shadow:none;filter:none;transform:none}

@@ -24,13 +24,16 @@ index.html              HTML 마크업만 있음. css/*.css를 순서대로 link
 assets/<id>.webp        영웅 전신 일러스트 28장 (도감 카드·상세·소환 결과·인트로)
 assets/portraits/<id>.webp  전투 아이콘·캔버스용 전신 초상 25장 (kael, raven, born은 없음 → 전신 일러스트를 잘라 씀)
 assets/battle/          전투 화면 그림 7장(ground·road·rock·castle·entry·enemy·boss .webp). battle-art.js의 config.images가 가리킴. 규격의 3배 크기, ground·road는 이음새 없는 336px 타일, 나머지는 투명 배경
+assets/icons/<classId>.svg  클래스 8종 아이콘(SVG 직접 제작). hero-classes.css가 mask로 그려 글자 색을 따라감. 새 클래스를 만들면 같은 id의 SVG와 CSS 한 줄을 추가
+assets/fonts/           제목 글꼴 서브셋(Cinzel 라틴 + 나눔명조 ExtraBold 한글, OFL 라이선스 포함). 한글은 화면에 쓰는 글자만 담았으므로 제목류에 새 한글을 쓰면 pyftsubset으로 다시 만들어야 함(없는 글자는 기본 글꼴로 대체됨)
+assets/ornaments/corner.svg  영웅 카드 모서리 장식
 assets/incoming/        새 영웅 원본 이미지를 올리는 곳 (게임이 읽지 않음, 아래 '새 영웅 반입 절차')
 docs/art/               캐릭터 아트 가이드: style-guide.md(화풍·구도·클래스 규칙), characters.md(영웅 설정 시트), prompt-template.md(이미지 생성 프롬프트)
 css/
-  base.css              기본 레이아웃, 버튼, 대화상자, 모바일 기본 규칙
+  base.css              기본 레이아웃과 다크 판타지 공통 스타일(색 토큰, 버튼, 패널, 대화상자, 게임 메뉴). 제목 @font-face는 index.html에 있음(boot.js가 CSS를 인라인하면서 url 기준 경로가 바뀌기 때문)
   collection.css        인트로, 탭, 도감 갤러리, 영웅 상세, 소환 결과, toast
   backup.css            기록 보관함(백업/복원) 패널과 복원 대화상자
-  hero-classes.css      전신 일러스트 표시, 클래스 배지, 배치 안내
+  hero-classes.css      전신 일러스트 표시, 클래스 배지·아이콘, 배치 안내
   battle.css            전투 화면(전체 화면 고정), 하단 영웅 도크, 골드 바
 data/
   heroes.json           영웅 28명의 수치와 고유 능력 `ability`(type + 수치). 배열 순서 = 저장 인덱스, 아래 규칙 참고
@@ -52,6 +55,7 @@ js/
   battle-render.js      캔버스 그리기: line, drawRange, draw (캔버스 해상도 맞춤, 격자는 배치 중에만 표시, 능력 연출: 링·번개·글자 팝업·지면 효과·상태 아이콘)
   abilities.js          영웅 고유 능력 28종(type별 동작)과 전투 중 상태(표식·빙결·화상·독·지대). 수치는 heroes.json의 ability에서 읽음
   battle.js             $ 헬퍼, 전투 상태, 스테이지 선택, 웨이브·적·영웅 시뮬레이션(step), 배치 입력, HUD, 게임 루프 시작
+  ui-select.js          <select>를 게임 스타일 메뉴로 바꿈(원본 select는 숨겨 둔 채 값·change 이벤트의 기준으로 유지)
   collection.js         stories, 도감 렌더링, 필터, 영웅 상세, 강화·각성·즐겨찾기, 소환, 탭 전환, toast
   backup-codec.js       BackupCodec: 백업 JSON 생성·검증·파싱 (Node에서도 require 가능)
   backup-ui.js          백업 파일 저장/불러오기, 복원 확인, 복원 전 기록으로 되돌리기
@@ -63,7 +67,7 @@ tests/check.js          Node로 돌리는 정적 검사 (의존성 없음)
 - 모든 JS는 **모듈이 아닌 일반 스크립트**입니다. 최상위 `const`/`let`/`function`이 파일 사이에서 공유됩니다
   (예: `battle.js`의 `$`, `units`, `running`을 `collection.js`, `backup-ui.js`가 그대로 씀).
 - 실행 순서는 `js/boot.js`의 `scripts` 배열이 정합니다:
-  `config → assets → battlefield → heroes → save → battle-art → battle-render → abilities → battle → collection → backup-codec → backup-ui`
+  `config → assets → battlefield → heroes → save → battle-art → battle-render → abilities → battle → collection → ui-select → backup-codec → backup-ui`
 - 파일 최상위에서 **바로 실행되는 코드**는 앞 파일에서 정의된 것만 쓸 수 있습니다. 함수 안에서는 뒤 파일의 것도 써도 됩니다
   (호출 시점에 이미 로드되어 있기 때문). 기존 코드의 `typeof renderCollection==='function'`, `typeof toast==='function'` 검사는 이 순서 때문에 있으니 지우지 마세요.
 - 새 JS 파일을 추가하면 `js/boot.js`의 `scripts`에 넣어야 실행됩니다. 새 data 파일은 `dataFiles`에 넣고 `ASHWARD_DATA.<키>`로 읽습니다.
