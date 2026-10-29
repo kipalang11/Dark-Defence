@@ -23,3 +23,7 @@ body.battle-mode{overflow:hidden}#battleView{position:fixed;inset:0;z-index:30;d
 #battleView #notice{background:#0c1315;color:var(--gold);border-top:1px solid #2f2a1a}
 @media(max-height:520px){#battleView .gselect{min-height:28px;min-width:0;padding:4px 10px}}
 @media(max-width:600px){#battleView .gselect{min-height:32px;min-width:0;padding:6px 10px}}
+
+/* Side-column hero list: keep every card at full height and scroll instead of squashing the thumbnails. */
+#battleView .hero-thumb{flex-shrink:0}
+@media(min-width:760px) and (min-height:560px) and (orientation:landscape){#battleView #heroes{grid-auto-rows:max-content}#battleView .battle-hero{flex-shrink:0}}
